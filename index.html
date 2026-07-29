@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<!--
+  MODÈLE DE BASE — VARIANTE DA "ATELIER BOUTIQUE" — sites auto-écoles
+  Deuxième direction du modèle de base (voir aussi ../template-base-auto-ecole/ pour la variante
+  d'origine bleu/ambre "SaaS moderne"). Même sections et mêmes CTA, mais composition ET DA
+  différentes : header en deux niveaux, hero en split-screen (au lieu de photo pleine largeur +
+  overlay), formations en liste numérotée éditoriale (au lieu de cartes+icônes), équipe en rangées
+  alternées avec grande citation (au lieu de cartes en grille), avis en mise en avant asymétrique
+  statique (au lieu de carrousel défilant), tarifs en bloc mis en avant + liste (au lieu de 3 cartes
+  égales), FAQ en deux colonnes sans encadrés. Fond ivoire, vert forêt + moutarde doré, typo Fraunces
+  (serif éditorial) + Work Sans.
+  Contenu fictif (Auto-École Excellence, Nantes) servant de référence de structure/style.
+  Ne pas modifier ce fichier directement pour un client : dupliquer ce dossier entier
+  (index.html + assets/) dans un nouveau dossier nommé pour le client, puis personnaliser la copie.
+
+  CHECKLIST DE PERSONNALISATION PAR CLIENT :
+    Identité
+      - Nom de l'auto-école (recherche "Excellence")
+      - Ville (recherche "Nantes")
+      - Téléphone (recherche "02 40 65 78 12") — présent en 4 endroits : header, hero, tarifs, contact/footer
+      - Adresse, email, horaires (section footer + section #contact + JSON-LD en tête de fichier + bandeau utilitaire du header)
+      - Titre, meta description, mots-clés locaux SEO (balises <title>/<meta> ci-dessous)
+    Contenu
+      - Formations proposées et tarifs réels (section #formations et #tarifs)
+      - Avis clients : remplacer par de vrais avis si possible (section #avis, 3 avis : 1 mis en avant + 2 en colonne)
+      - Équipe : vraies photos + noms + rôles + citations (section #equipe, dossier assets/team-*.jpg)
+        -> C'est le point qui fait le plus "wow" pour le patron : demander ses vraies photos avant livraison.
+    Carte GPS (section #contact)
+      - Remplacer bbox + marker de l'iframe OpenStreetMap par les coordonnées réelles (voir commentaire sur place)
+      - Remplacer le lien "Itinéraire" (Google Maps) et le texte adresse affiché
+    Photos d'ambiance (peuvent être réutilisées telles quelles si génériques, sinon remplacer)
+      - assets/hero-conduite.jpg (photo pleine hauteur du hero)
+      - assets/avis-bg.jpg (fond de la section avis)
+-->
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auto-École Excellence Nantes | Permis B, Boîte Auto, Conduite Accompagnée</title>
+<meta name="description" content="Auto-École Excellence à Nantes : permis B, boîte automatique, conduite accompagnée. Tarifs transparents, financement CPF accepté, moniteurs diplômés. Appelez-nous au 02 40 65 78 12.">
+<meta name="keywords" content="auto-école Nantes, permis B Nantes, permis de conduire Nantes, conduite accompagnée Nantes, boîte automatique Nantes, CPF permis">
+<meta property="og:title" content="Auto-École Excellence — Permis de conduire à Nantes">
+<meta property="og:description" content="Formations permis B, boîte auto et conduite accompagnée à Nantes. Tarifs clairs, financement CPF, taux de réussite élevé.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%232B4436'/%3E%3Ctext x='50' y='68' font-size='54' font-family='Georgia, serif' font-weight='700' fill='%23C6963E' text-anchor='middle'%3EE%3C/text%3E%3C/svg%3E">
+
+<!-- Polices : Fraunces (titres, serif éditorial expressif) + Work Sans (texte courant) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Données structurées SEO local -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DrivingSchool",
+  "name": "Auto-École Excellence",
+  "image": "",
+  "telephone": "+33240657812",
+  "email": "contact@autoecole-excellence.fr",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "12 Rue de Strasbourg",
+    "addressLocality": "Nantes",
+    "postalCode": "44000",
+    "addressCountry": "FR"
+  },
+  "openingHours": ["Mo-Fr 09:00-19:00", "Sa 09:00-12:00"],
+  "priceRange": "€€"
+}
+</script>
+
+<style>
+  :root {
+    --primary: #2B4436;
+    --primary-dark: #1B2E23;
+    --accent: #C6963E;
+    --accent-dark: #A97B2C;
+    --bg: #FBF7EE;
+    --bg-alt: #F2EAD9;
+    --text: #2A2621;
+    --text-muted: #746B5C;
+    --border: #E4D9C1;
+    --star: #C6963E;
+    --radius: 6px;
+    --shadow: 0 4px 20px rgba(42, 38, 33, 0.07);
+    --shadow-lg: 0 14px 38px rgba(42, 38, 33, 0.13);
+    font-size: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  /* Petites touches de marque : sélection de texte, barre de défilement, focus clavier */
+  ::selection { background: var(--accent); color: #FBF7EE; }
+
+  html { scrollbar-color: var(--primary) var(--bg-alt); }
+  ::-webkit-scrollbar { width: 12px; }
+  ::-webkit-scrollbar-track { background: var(--bg-alt); }
+  ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 8px; border: 3px solid var(--bg-alt); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--primary-dark); }
+
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  body {
+    font-family: 'Work Sans', 'Segoe UI', Arial, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    font-optical-sizing: auto;
+    line-height: 1.15;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  img, svg { display: block; max-width: 100%; }
+
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  section { padding: 96px 0; }
+
+  .section-alt { background: var(--bg-alt); }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+    margin-bottom: 18px;
+  }
+  .eyebrow::before {
+    content: "";
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--accent-dark);
+  }
+
+  .section-head { text-align: center; max-width: 640px; margin: 0 auto 56px; }
+  .section-head .eyebrow { justify-content: center; }
+  .section-head h2 { font-size: clamp(1.8rem, 3.6vw, 2.5rem); margin-bottom: 14px; }
+  .section-head p { color: var(--text-muted); font-size: 1.05rem; }
+
+  /* Boutons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 28px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 1rem;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    min-height: 48px;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-accent {
+    background: var(--accent);
+    color: #2A2621;
+    box-shadow: 0 6px 18px rgba(198, 150, 62, 0.3);
+  }
+  .btn-accent:hover { background: var(--accent-dark); }
+  .btn-outline {
+    background: transparent;
+    border-color: rgba(255,255,255,0.5);
+    color: #fff;
+  }
+  .btn-outline:hover { background: rgba(255,255,255,0.12); border-color: var(--accent); }
+  .btn-outline-dark {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--text);
+  }
+  .btn-outline-dark:hover { border-color: var(--primary); color: var(--primary); }
+  .btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  /* Header — deux niveaux : bandeau utilitaire (horaires + info de réassurance) + barre principale */
+  header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; }
+  .header-utility {
+    background: var(--primary-dark);
+    color: rgba(255,255,255,0.82);
+    font-size: 0.78rem;
+  }
+  .header-utility .container {
+    padding: 7px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  .header-utility strong { color: #fff; font-weight: 600; }
+  .header-main {
+    background: rgba(251,247,238,0.97);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  .header-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 13px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.35rem;
+    color: var(--text);
+    line-height: 1.05;
+  }
+  .logo-sub {
+    display: block;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+    margin-bottom: 2px;
+  }
+  .header-actions { display: flex; align-items: center; gap: 20px; }
+  .header-phone {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    color: var(--text);
+    font-size: 1.05rem;
+    white-space: nowrap;
+    padding: 6px 12px;
+    margin: -6px -12px;
+    border-radius: 4px;
+    border: 1.5px solid transparent;
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+  .header-phone:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    background: rgba(198, 150, 62, 0.08);
+  }
+  .header-phone svg { width: 20px; height: 20px; color: var(--primary); }
+  .header-cta { white-space: nowrap; padding: 12px 20px; }
+
+  @media (max-width: 620px) {
+    .header-phone-text { display: none; }
+    .header-cta { padding: 12px 16px; }
+    .header-utility .cpf-flag { display: none; }
+  }
+
+  /* Hero — composition en split-screen (panneau vert plein + photo pleine hauteur),
+     au lieu d'une photo pleine largeur avec overlay et texte par-dessus.
+     Photo : Art Markiv sur Unsplash (licence Unsplash, usage commercial libre, pas d'attribution requise).
+     Placeholder pour la démo — à remplacer par une vraie photo du client (véhicule/équipe) à la livraison. */
+  .hero { background: var(--primary-dark); color: #fff; }
+  .hero-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+  }
+  .hero-content {
+    padding: 158px 40px 72px 24px;
+    max-width: 540px;
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .hero-photo {
+    position: relative;
+    min-height: 460px;
+    background: url('assets/hero-conduite.jpg') center 32% / cover no-repeat;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.22);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.86rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+    align-self: flex-start;
+  }
+  .hero h1 {
+    font-size: clamp(2.1rem, 3.6vw, 3rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.12;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+  /* Entrée en cascade du titre, mot par groupe de mots */
+  .hero h1 .reveal-word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(18px);
+    animation: wordIn 0.7s cubic-bezier(.16,.84,.44,1) forwards;
+  }
+  .hero h1 .reveal-word:nth-of-type(1) { animation-delay: 0.05s; }
+  .hero h1 .reveal-word:nth-of-type(2) { animation-delay: 0.22s; }
+  .hero h1 .reveal-word:nth-of-type(3) { animation-delay: 0.39s; }
+  @keyframes wordIn { to { opacity: 1; transform: translateY(0); } }
+  /* Mot clé accentué en italique éditorial (Fraunces) avec soulignement qui se dessine */
+  .accent-text {
+    position: relative;
+    display: inline-block;
+    color: var(--accent);
+    font-style: italic;
+    font-weight: 500;
+  }
+  .accent-text::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: -2px;
+    width: 100%;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--accent);
+    opacity: 0.55;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: underlineIn 0.6s ease forwards;
+    animation-delay: 1s;
+  }
+  @keyframes underlineIn { to { transform: scaleX(1); } }
+  /* Texte en dégradé pour les chiffres clés */
+  .text-gradient {
+    background: linear-gradient(90deg, var(--primary) 0%, var(--accent-dark) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .text-gradient-light {
+    background: linear-gradient(90deg, #FFFFFF 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero h1 .reveal-word { opacity: 1; transform: none; animation: none; }
+    .accent-text::after { transform: scaleX(1); animation: none; }
+  }
+  /* Soulignement au survol pour les liens texte (footer, contact) */
+  .link-underline {
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-repeat: no-repeat;
+    background-position: left 100%;
+    background-size: 0% 2px;
+    transition: background-size 0.25s ease, color 0.25s ease;
+    padding-bottom: 2px;
+  }
+  .link-underline:hover { background-size: 100% 2px; }
+  .hero p.lead {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 30px;
+  }
+  .hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 36px; }
+  .hero-stats { display: flex; gap: 32px; flex-wrap: wrap; }
+  .hero-stat strong { display: block; font-size: 1.6rem; font-family: 'Fraunces', serif; font-weight: 600; color: var(--accent); }
+  .hero-stat span { font-size: 0.88rem; color: rgba(255,255,255,0.72); }
+
+  /* Carte flottante qui chevauche la photo — composition à la "revue" plutôt qu'une carte flottant sur un fond photo unique */
+  .hero-card {
+    position: absolute;
+    left: -36px;
+    bottom: 44px;
+    max-width: 300px;
+    background: var(--bg);
+    color: var(--text);
+    border-radius: var(--radius);
+    padding: 26px;
+    box-shadow: var(--shadow-lg);
+  }
+  .hero-card h3 { font-size: 1.05rem; margin-bottom: 16px; }
+  .hero-card ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .hero-card li { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.92rem; }
+  .hero-card li svg { width: 20px; height: 20px; color: var(--primary); flex-shrink: 0; }
+
+  @media (max-width: 960px) {
+    .hero-split { grid-template-columns: 1fr; }
+    .hero-content { max-width: none; margin-left: 0; padding: 148px 24px 56px; }
+    .hero-photo { min-height: 340px; order: -1; }
+    .hero-card { position: static; margin: -44px 24px 0; max-width: none; }
+  }
+  @media (max-width: 620px) {
+    .hero-content { padding-top: 128px; }
+  }
+
+  /* Formations — liste numérotée éditoriale au lieu de cartes à icônes */
+  .formations-list { max-width: 840px; margin: 0 auto; }
+  .formation-row {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: 24px;
+    align-items: center;
+    padding: 30px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .formation-row:first-child { border-top: 1px solid var(--border); }
+  .formation-num {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--accent-dark);
+    opacity: 0.65;
+  }
+  .formation-row h3 { font-size: 1.2rem; margin-bottom: 6px; }
+  .formation-row p { color: var(--text-muted); font-size: 0.95rem; max-width: 460px; }
+  .formation-price { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.35rem; color: var(--primary); white-space: nowrap; text-align: right; }
+  .formation-price small { display: block; font-family: 'Work Sans', sans-serif; font-weight: 500; font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+
+  @media (max-width: 620px) {
+    .formation-row { grid-template-columns: 36px 1fr; row-gap: 12px; }
+    .formation-price { grid-column: 1 / -1; text-align: left; padding-left: 56px; }
+  }
+
+  /* Équipe — rangées alternées avec grande citation, au lieu de cartes en grille égale */
+  .team-rows { display: flex; flex-direction: column; gap: 64px; }
+  .team-row {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .team-row:nth-child(even) { grid-template-columns: 1fr 300px; }
+  .team-row:nth-child(even) .team-photo-wrap { order: 2; }
+  .team-row:nth-child(even) .team-text { order: 1; }
+  .team-photo-wrap { position: relative; aspect-ratio: 4 / 5; border-radius: var(--radius); overflow: hidden; }
+  .team-photo-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: top center;
+    filter: sepia(0.45) saturate(0.55) contrast(1.02);
+    transition: filter 0.5s ease;
+  }
+  .team-row:hover .team-photo-wrap img { filter: sepia(0) saturate(1) contrast(1.02); }
+  .team-badge {
+    position: absolute;
+    left: 14px; bottom: 14px;
+    background: rgba(27, 46, 35, 0.8);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    font-size: 0.76rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 3px;
+    letter-spacing: 0.02em;
+  }
+  .team-text h3 { font-size: 1.35rem; margin-bottom: 6px; }
+  .team-role { display: block; color: var(--primary); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 20px; }
+  .team-quote-mark { font-family: 'Fraunces', serif; font-size: 3rem; color: var(--accent); line-height: 0.4; display: block; margin-bottom: 10px; }
+  .team-quote { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 1.2rem; line-height: 1.4; color: var(--text); max-width: 460px; }
+
+  @media (max-width: 780px) {
+    .team-row, .team-row:nth-child(even) { grid-template-columns: 1fr; gap: 24px; }
+    .team-row:nth-child(even) .team-photo-wrap, .team-row:nth-child(even) .team-text { order: initial; }
+    .team-photo-wrap { max-width: 280px; }
+  }
+
+  /* Avis clients — mise en avant asymétrique statique (un grand avis + deux en colonne),
+     au lieu d'un carrousel qui défile en continu.
+     Photo : Mohamed Maamoun sur Unsplash (licence Unsplash, usage commercial libre). */
+  #avis {
+    position: relative;
+    background:
+      linear-gradient(rgba(17, 20, 14, 0.62), rgba(13, 16, 11, 0.86)),
+      url('assets/avis-bg.jpg') center 65% / cover no-repeat;
+  }
+  #avis .eyebrow { color: var(--accent); }
+  #avis .eyebrow::before { background: var(--accent); }
+  #avis .section-head h2 { color: #fff; }
+  #avis .section-head p { color: rgba(255, 255, 255, 0.8); }
+  .avis-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 24px;
+    align-items: stretch;
+  }
+  .avis-card {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: var(--radius);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .avis-featured { justify-content: center; padding: 44px; }
+  .avis-featured .quote { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 1.35rem; line-height: 1.45; color: #fff; }
+  .avis-side { display: flex; flex-direction: column; gap: 24px; }
+  .avis-side .avis-card { flex: 1; justify-content: center; }
+  .avis-side .quote { color: rgba(255,255,255,0.92); font-size: 0.96rem; }
+  .avis-stars { display: flex; gap: 3px; color: var(--star); }
+  .avis-stars svg { width: 18px; height: 18px; }
+  .avis-author { display: flex; align-items: center; gap: 12px; }
+  .avis-avatar {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #2A2621;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600;
+    font-family: 'Fraunces', serif;
+    flex-shrink: 0;
+  }
+  .avis-author strong { display: block; font-size: 0.95rem; color: #fff; }
+  .avis-author span { font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+
+  @media (max-width: 780px) {
+    .avis-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Tarifs — bloc mis en avant + liste condensée, au lieu de 3 cartes de largeur égale */
+  .tarifs-layout {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 24px;
+    align-items: stretch;
+  }
+  .tarif-featured {
+    background: var(--primary-dark);
+    color: #fff;
+    border-radius: var(--radius);
+    padding: 44px 38px;
+    display: flex;
+    flex-direction: column;
+  }
+  .tarif-featured .tarif-flag { color: var(--accent); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; }
+  .tarif-featured h3 { color: #fff; font-size: 1.4rem; }
+  .tarif-featured .price { font-family: 'Fraunces', serif; font-size: 2.5rem; font-weight: 600; color: var(--accent); margin: 16px 0 2px; }
+  .tarif-featured .price small { font-size: 0.95rem; font-weight: 500; color: rgba(255,255,255,0.65); }
+  .tarif-featured ul { list-style: none; margin: 26px 0 32px; display: flex; flex-direction: column; gap: 12px; flex-grow: 1; }
+  .tarif-featured li { display: flex; gap: 10px; align-items: flex-start; color: rgba(255,255,255,0.85); font-size: 0.95rem; }
+  .tarif-featured li svg { width: 18px; height: 18px; color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+
+  .tarif-stack { display: flex; flex-direction: column; gap: 24px; }
+  .tarif-row {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex: 1;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .tarif-row:hover { border-color: var(--accent); box-shadow: var(--shadow); }
+  .tarif-row-info h3 { font-size: 1.05rem; margin-bottom: 4px; }
+  .tarif-row-info span { color: var(--text-muted); font-size: 0.88rem; }
+  .tarif-row-price { text-align: right; flex-shrink: 0; }
+  .tarif-row-price .price { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 600; color: var(--primary); white-space: nowrap; }
+  .tarif-row-price .btn { margin-top: 10px; padding: 8px 16px; min-height: auto; font-size: 0.88rem; }
+
+  .cpf-note {
+    text-align: center;
+    margin-top: 36px;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+  }
+  .cpf-note strong { color: var(--primary); }
+
+  @media (max-width: 900px) {
+    .tarifs-layout { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .tarif-row { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .tarif-row-price { text-align: left; }
+  }
+
+  /* FAQ — deux colonnes en liste, sans encadrés (index éditorial plutôt qu'accordéon en cartes) */
+  .faq-list { columns: 2; column-gap: 48px; max-width: 900px; margin: 0 auto; }
+  .faq-item { break-inside: avoid; border-bottom: 1px solid var(--border); }
+  .faq-question {
+    width: 100%;
+    text-align: left;
+    padding: 22px 0;
+    background: none;
+    border: none;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--text);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    cursor: pointer;
+    gap: 16px;
+  }
+  .faq-question svg { width: 20px; height: 20px; color: var(--primary); flex-shrink: 0; margin-top: 2px; transition: transform 0.2s ease; }
+  .faq-item.open .faq-question svg { transform: rotate(180deg); }
+  .faq-item.open .faq-question { color: var(--primary); }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease;
+  }
+  .faq-answer-inner { padding: 0 0 22px; color: var(--text-muted); font-size: 0.96rem; }
+  .faq-item.open .faq-answer { max-height: 300px; }
+
+  @media (max-width: 700px) {
+    .faq-list { columns: 1; }
+  }
+
+  /* Contact — deux panneaux de couleur accolés (info sur fond vert, formulaire sur fond ivoire),
+     au lieu de texte + carte grise côte à côte sur le même fond. */
+  .contact-panel {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+  .contact-info-panel {
+    background: var(--primary-dark);
+    color: #fff;
+    padding: 52px 44px;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+  }
+  .contact-info-panel .eyebrow { color: var(--accent); }
+  .contact-info-panel .eyebrow::before { background: var(--accent); }
+  .contact-info-panel h2 { color: #fff; margin-bottom: 8px; }
+  .contact-info { display: flex; flex-direction: column; gap: 20px; }
+  .contact-info-item { display: flex; gap: 14px; align-items: flex-start; }
+  .contact-info-item svg { width: 22px; height: 22px; color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+  .contact-info-item strong { display: block; font-size: 0.95rem; margin-bottom: 2px; color: #fff; }
+  .contact-info-item span, .contact-info-item a { color: rgba(255,255,255,0.72); font-size: 0.95rem; }
+  .contact-info-item a:hover { color: var(--accent); }
+
+  .contact-form-panel { background: var(--bg); padding: 52px 44px; }
+  form.contact-form { display: flex; flex-direction: column; gap: 16px; }
+  .form-row { display: flex; flex-direction: column; gap: 6px; }
+  .form-row label { font-size: 0.88rem; font-weight: 700; color: var(--text); }
+  .form-row input, .form-row textarea {
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 13px 16px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 48px;
+  }
+  .form-row textarea { min-height: 100px; resize: vertical; }
+  .form-row input:focus, .form-row textarea:focus {
+    outline: 3px solid rgba(43, 68, 54, 0.2);
+    border-color: var(--primary);
+  }
+  .form-success {
+    display: none;
+    background: #E7F0E3;
+    color: #2B4436;
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    align-items: center;
+    gap: 10px;
+  }
+  .form-success.show { display: flex; }
+  .form-success svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  @media (max-width: 780px) {
+    .contact-panel { grid-template-columns: 1fr; }
+  }
+
+  /* Carte GPS — carte "stylisée" via un filtre de désaturation + une teinte couleur de marque,
+     pour que la carte (fond OpenStreetMap non personnalisable) reste cohérente avec la DA du site. */
+  .map-card {
+    margin-top: 32px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    background: #fff;
+  }
+  .map-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 21 / 6;
+  }
+  .map-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    filter: grayscale(1) contrast(1.05) brightness(1.1);
+  }
+  .map-tint {
+    position: absolute;
+    inset: 0;
+    background: var(--primary);
+    mix-blend-mode: color;
+    opacity: 0.85;
+    pointer-events: none;
+  }
+  .map-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 22px 28px;
+  }
+  .map-info-text { display: flex; flex-direction: column; gap: 4px; }
+  .map-info-text strong { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.05rem; }
+  .map-info-text span { color: var(--text-muted); font-size: 0.92rem; }
+
+  @media (max-width: 620px) {
+    .map-frame { aspect-ratio: 4 / 3; }
+    .map-info { flex-direction: column; align-items: flex-start; }
+  }
+
+  /* Footer */
+  footer {
+    background: #1B2E23;
+    color: rgba(255,255,255,0.85);
+    padding: 56px 0 28px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+  .footer-logo { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.3rem; color: #fff; margin-bottom: 16px; line-height: 1.1; }
+  .footer-logo-sub { display: block; font-family: 'Work Sans', sans-serif; font-weight: 600; font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+  .footer-col h4 { color: #fff; font-size: 1rem; margin-bottom: 16px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col a, .footer-col span { color: rgba(255,255,255,0.75); font-size: 0.92rem; }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-col li { display: flex; align-items: flex-start; gap: 10px; }
+  .footer-col li svg { width: 17px; height: 17px; flex-shrink: 0; margin-top: 2px; color: var(--accent); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.12);
+    padding-top: 24px;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.55);
+    text-align: center;
+  }
+
+  @media (max-width: 780px) {
+    .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  }
+
+  /* Barre d'appel flottante mobile */
+  .mobile-call-bar {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 99;
+    background: var(--accent);
+    padding: 12px 20px;
+    box-shadow: 0 -6px 20px rgba(0,0,0,0.15);
+  }
+  .mobile-call-bar a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-weight: 700;
+    color: #2A2621;
+    font-size: 1.05rem;
+    min-height: 44px;
+  }
+  .mobile-call-bar svg { width: 22px; height: 22px; }
+
+  @media (max-width: 620px) {
+    .mobile-call-bar { display: block; }
+    body { padding-bottom: 64px; }
+    section { padding: 64px 0; }
+  }
+
+  @media (max-width: 900px) {
+    section { padding: 76px 0; }
+  }
+
+  /* Apparition au scroll — désactivée si l'utilisateur préfère moins de mouvement */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(.16,.84,.44,1), transform 0.7s cubic-bezier(.16,.84,.44,1);
+  }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<header>
+  <div class="header-utility">
+    <div class="container">
+      <span><strong>Nantes</strong> · Lun–Ven 9h–19h · Sam 9h–12h</span>
+      <span class="cpf-flag">✓ Financement CPF accepté</span>
+    </div>
+  </div>
+  <div class="header-main">
+    <div class="header-inner">
+      <a href="#" class="logo">
+        <span class="logo-sub">Auto-École</span>
+        Excellence
+      </a>
+      <div class="header-actions">
+        <a href="tel:+33240657812" class="header-phone">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span class="header-phone-text">02 40 65 78 12</span>
+        </a>
+        <a href="tel:+33240657812" class="btn btn-accent header-cta">Appeler maintenant</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="hero-split">
+    <div class="hero-content">
+      <span class="hero-badge">★ 4.8/5 — 210+ élèves formés à Nantes</span>
+      <h1><span class="reveal-word">Passez votre permis à Nantes</span> <span class="reveal-word">avec des moniteurs qui</span> <span class="reveal-word"><span class="accent-text">s'adaptent à vous</span></span></h1>
+      <p class="lead">Permis B, boîte automatique et conduite accompagnée. Suivi personnalisé, créneaux flexibles et tarifs transparents — sans surprise sur la facture finale.</p>
+      <div class="hero-ctas">
+        <a href="tel:+33240657812" class="btn btn-accent">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          02 40 65 78 12
+        </a>
+        <a href="#tarifs" class="btn btn-outline">Voir nos tarifs</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><strong class="text-gradient-light" data-count="92" data-suffix="%">0%</strong><span>Réussite au permis B</span></div>
+        <div class="hero-stat"><strong class="text-gradient-light" data-count="15" data-suffix="j">0j</strong><span>Délai moyen 1ère leçon</span></div>
+        <div class="hero-stat"><strong class="text-gradient-light">CPF</strong><span>Financement accepté</span></div>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <div class="hero-card reveal">
+        <h3>Pourquoi les Nantais nous choisissent</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Tarifs affichés, aucun frais caché</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Moniteurs diplômés d'État</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Créneaux soir et week-end</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Véhicules récents, boîte auto dispo</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FORMATIONS ===================== -->
+<!-- Liste numérotée : ajouter/retirer un .formation-row pour ajuster le nombre de formules,
+     mettre à jour .formation-num en conséquence (01, 02, 03...). -->
+<section id="formations">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Nos formations</span>
+      <h2>Une formule pour chaque profil de conducteur</h2>
+      <p>Du premier cours à l'examen, on adapte le parcours à votre rythme et à votre budget.</p>
+    </div>
+    <div class="formations-list">
+      <div class="formation-row reveal">
+        <span class="formation-num">01</span>
+        <div>
+          <h3>Permis B classique</h3>
+          <p>Code + conduite, formation complète avec suivi pédagogique individualisé jusqu'à l'examen.</p>
+        </div>
+        <div class="formation-price">1 590 € <small>Dès</small></div>
+      </div>
+      <div class="formation-row reveal">
+        <span class="formation-num">02</span>
+        <div>
+          <h3>Boîte automatique</h3>
+          <p>Formation accélérée sur véhicule automatique, idéale pour un permis rapide et sans stress.</p>
+        </div>
+        <div class="formation-price">1 690 € <small>Dès</small></div>
+      </div>
+      <div class="formation-row reveal">
+        <span class="formation-num">03</span>
+        <div>
+          <h3>Conduite accompagnée (AAC)</h3>
+          <p>Dès 15 ans, apprentissage anticipé avec un proche pour une conduite plus sûre et moins chère à l'assurance.</p>
+        </div>
+        <div class="formation-price">1 290 € <small>Dès</small></div>
+      </div>
+      <div class="formation-row reveal">
+        <span class="formation-num">04</span>
+        <div>
+          <h3>Stage code intensif</h3>
+          <p>Session de révision intensive sur 2 jours pour décrocher le code rapidement, en présentiel.</p>
+        </div>
+        <div class="formation-price">249 € <small>Dès</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ÉQUIPE ===================== -->
+<!-- Personnalisation par client : remplacer les 3 photos (assets/team-*.jpg — prévoir un portrait
+     par personne, fond neutre de préférence), les noms, rôles, badges et citations.
+     Ajouter ou retirer des .team-row selon l'effectif réel de l'auto-école (l'alternance
+     gauche/droite se fait automatiquement via nth-child, pas besoin d'y toucher). -->
+<section id="equipe" class="section-alt">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">L'équipe</span>
+      <h2>Les personnes qui vous accompagnent</h2>
+      <p>Des moniteurs diplômés d'État, choisis pour leur pédagogie autant que pour leur expérience.</p>
+    </div>
+    <div class="team-rows">
+      <div class="team-row reveal">
+        <div class="team-photo-wrap">
+          <img src="assets/team-julien.jpg" alt="Julien Rambert, fondateur et moniteur de l'Auto-École Excellence">
+          <span class="team-badge">15 ans d'expérience</span>
+        </div>
+        <div class="team-text">
+          <h3>Julien Rambert</h3>
+          <span class="team-role">Fondateur &amp; moniteur diplômé d'État</span>
+          <span class="team-quote-mark">"</span>
+          <p class="team-quote">Je forme des conducteurs sûrs d'eux, pas juste des gens qui passent l'examen.</p>
+        </div>
+      </div>
+      <div class="team-row reveal">
+        <div class="team-photo-wrap">
+          <img src="assets/team-camille.jpg" alt="Camille Foucher, monitrice à l'Auto-École Excellence">
+          <span class="team-badge">Spécialiste AAC</span>
+        </div>
+        <div class="team-text">
+          <h3>Camille Foucher</h3>
+          <span class="team-role">Monitrice permis B &amp; conduite accompagnée</span>
+          <span class="team-quote-mark">"</span>
+          <p class="team-quote">Chaque élève apprend à son rythme, sans pression ni jugement.</p>
+        </div>
+      </div>
+      <div class="team-row reveal">
+        <div class="team-photo-wrap">
+          <img src="assets/team-karim.jpg" alt="Karim Belaïd, moniteur à l'Auto-École Excellence">
+          <span class="team-badge">Spécialiste boîte auto</span>
+        </div>
+        <div class="team-text">
+          <h3>Karim Belaïd</h3>
+          <span class="team-role">Moniteur boîte automatique &amp; code</span>
+          <span class="team-quote-mark">"</span>
+          <p class="team-quote">L'objectif : être à l'aise au volant, pas juste diplômé.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== AVIS CLIENTS ===================== -->
+<!-- Un avis "vedette" (.avis-featured) + deux avis secondaires empilés (.avis-side). Pas de
+     défilement automatique : mise en avant statique, plus facile à lire et à personnaliser. -->
+<section id="avis">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Avis élèves</span>
+      <h2>Ce que disent nos élèves nantais</h2>
+      <p>Plus de 210 élèves formés, notés 4.8/5 en moyenne sur Google.</p>
+    </div>
+    <div class="avis-grid reveal">
+      <div class="avis-card avis-featured">
+        <div class="avis-stars">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="quote">"Mon moniteur était hyper patient, j'avais vraiment le trac au début. J'ai eu mon permis du premier coup après 2 mois."</p>
+        <div class="avis-author">
+          <div class="avis-avatar">L</div>
+          <div><strong>Léa M.</strong><span>Permis B — Nantes centre</span></div>
+        </div>
+      </div>
+      <div class="avis-side">
+        <div class="avis-card">
+          <div class="avis-stars">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="quote">"Les tarifs sont clairs dès le départ, pas de mauvaise surprise contrairement à mon ancienne auto-école. Créneaux le samedi au top."</p>
+          <div class="avis-author">
+            <div class="avis-avatar">T</div>
+            <div><strong>Thomas R.</strong><span>Boîte automatique — Nantes</span></div>
+          </div>
+        </div>
+        <div class="avis-card">
+          <div class="avis-stars">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="quote">"Ma fille a fait la conduite accompagnée avec eux, super suivi et bons conseils pour nous les parents aussi. Je recommande."</p>
+          <div class="avis-author">
+            <div class="avis-avatar">S</div>
+            <div><strong>Sophie D.</strong><span>Conduite accompagnée — parent d'élève</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TARIFS ===================== -->
+<!-- .tarif-featured = la formule mise en avant (bloc vert plein) ; .tarif-row = les autres
+     formules, listées en dessous/à côté. Changer le badge/flag et les <li> pour un autre plan
+     mis en avant si besoin. -->
+<section id="tarifs">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Tarifs</span>
+      <h2>Des prix clairs, sans surprise</h2>
+      <p>Tout est indiqué à l'avance : heures de conduite incluses, présentation à l'examen, livret.</p>
+    </div>
+    <div class="tarifs-layout">
+      <div class="tarif-featured reveal">
+        <span class="tarif-flag">Le plus choisi</span>
+        <h3>Permis B classique</h3>
+        <div class="price">1 590 € <small>/ forfait</small></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Code de la route illimité</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> 20h de conduite (ajustable selon niveau)</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Présentation à l'examen incluse</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Financable via CPF</li>
+        </ul>
+        <a href="tel:+33240657812" class="btn btn-accent">Nous appeler</a>
+      </div>
+      <div class="tarif-stack">
+        <div class="tarif-row reveal">
+          <div class="tarif-row-info">
+            <h3>Conduite accompagnée</h3>
+            <span>Code illimité + 20h de conduite, dès 15 ans</span>
+          </div>
+          <div class="tarif-row-price">
+            <div class="price">1 290 € <small>/forfait</small></div>
+            <a href="tel:+33240657812" class="btn btn-outline-dark">Appeler</a>
+          </div>
+        </div>
+        <div class="tarif-row reveal">
+          <div class="tarif-row-info">
+            <h3>Boîte automatique</h3>
+            <span>Code illimité + 13h de conduite, financable CPF</span>
+          </div>
+          <div class="tarif-row-price">
+            <div class="price">1 690 € <small>/forfait</small></div>
+            <a href="tel:+33240657812" class="btn btn-outline-dark">Appeler</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="cpf-note">💳 Toutes nos formations permis B sont éligibles au <strong>Compte Personnel de Formation (CPF)</strong> — demandez-nous un devis personnalisé.</p>
+  </div>
+</section>
+
+<!-- ===================== FAQ ===================== -->
+<section id="faq" class="section-alt">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Questions fréquentes</span>
+      <h2>Vos questions, nos réponses</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <button class="faq-question" type="button">
+          Combien de temps faut-il pour obtenir le permis ?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">En moyenne 2 à 4 mois pour le permis B classique selon votre disponibilité et le nombre d'heures de conduite nécessaires. Pour les formations accélérées ou en boîte automatique, comptez souvent 4 à 6 semaines.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question" type="button">
+          Le CPF peut-il financer ma formation ?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">Oui, nos formations au permis B (classique et boîte automatique) sont éligibles au Compte Personnel de Formation. Nous vous accompagnons dans les démarches sur MonCompteFormation pour mobiliser vos droits.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question" type="button">
+          Que se passe-t-il si j'échoue à l'examen ?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">Vous bénéficiez d'un bilan personnalisé avec votre moniteur et de leçons de perfectionnement ciblées sur vos points faibles avant de repasser l'examen dès que possible, sans repartir de zéro.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question" type="button">
+          Combien d'heures de conduite sont incluses dans le forfait ?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">Le forfait permis B classique inclut 20h de conduite, ajustables selon votre niveau après l'évaluation de départ. Des heures supplémentaires peuvent être ajoutées à tout moment si besoin, sans engagement.</div></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question" type="button">
+          Puis-je choisir mes créneaux de conduite ?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">Oui, nous proposons des créneaux en semaine, en soirée et le samedi matin pour s'adapter aux étudiants comme aux actifs. Vous réservez vos leçons directement avec votre moniteur selon ses disponibilités.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-panel reveal">
+      <div class="contact-info-panel">
+        <span class="eyebrow">Contact</span>
+        <h2>Parlons de votre projet de permis</h2>
+        <div class="contact-info">
+          <div class="contact-info-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <div><strong>Téléphone</strong><a href="tel:+33240657812" class="link-underline">02 40 65 78 12</a></div>
+          </div>
+          <div class="contact-info-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><path d="M2 6h20v12H2z"/></svg>
+            <div><strong>Email</strong><a href="mailto:contact@autoecole-excellence.fr" class="link-underline">contact@autoecole-excellence.fr</a></div>
+          </div>
+          <div class="contact-info-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <div><strong>Adresse</strong><span>12 Rue de Strasbourg, 44000 Nantes</span></div>
+          </div>
+          <div class="contact-info-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <div><strong>Horaires</strong><span>Lun–Ven 9h–19h · Sam 9h–12h</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form-panel">
+        <form class="contact-form" id="contactForm">
+          <div class="form-row">
+            <label for="prenom">Prénom</label>
+            <input type="text" id="prenom" name="prenom" required placeholder="Votre prénom">
+          </div>
+          <div class="form-row">
+            <label for="telephone">Téléphone</label>
+            <input type="tel" id="telephone" name="telephone" required placeholder="06 XX XX XX XX">
+          </div>
+          <div class="form-row">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Dites-nous en plus sur votre projet (formule souhaitée, disponibilités...)"></textarea>
+          </div>
+          <button type="submit" class="btn btn-accent">Demander un devis gratuit</button>
+          <div class="form-success" id="formSuccess">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Merci ! Nous vous rappelons sous 24h.
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- CARTE GPS — à personnaliser pour chaque client :
+         1) bbox + marker de l'iframe : aller sur openstreetmap.org, chercher l'adresse du client,
+            clic sur "Partager" > cocher "Inclure le marqueur" > copier les coordonnées du lien HTML.
+         2) le lien "Itinéraire" : remplacer la query par l'adresse réelle (fonctionne sans clé API).
+         3) le texte affiché (nom + adresse) juste en dessous de la carte. -->
+    <div class="map-card reveal">
+      <div class="map-frame">
+        <div class="map-tint" aria-hidden="true"></div>
+        <iframe
+          src="https://www.openstreetmap.org/export/embed.html?bbox=-1.5720%2C47.2120%2C-1.5430%2C47.2290&amp;marker=47.2184%2C-1.5536&amp;layer=mapnik"
+          title="Localisation Auto-École Excellence sur la carte"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <div class="map-info">
+        <div class="map-info-text">
+          <strong>Auto-École Excellence</strong>
+          <span>12 Rue de Strasbourg, 44000 Nantes</span>
+        </div>
+        <a href="https://www.google.com/maps/search/?api=1&query=12+Rue+de+Strasbourg+44000+Nantes" target="_blank" rel="noopener" class="btn btn-outline-dark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Itinéraire
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+          <span class="footer-logo-sub">Auto-École</span>
+          Excellence
+        </div>
+        <p style="font-size: 0.92rem; max-width: 320px;">Votre auto-école de confiance à Nantes depuis 2012. Permis B, boîte automatique et conduite accompagnée avec des moniteurs diplômés d'État.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Formations</h4>
+        <ul>
+          <li><a href="#formations" class="link-underline">Permis B classique</a></li>
+          <li><a href="#formations" class="link-underline">Boîte automatique</a></li>
+          <li><a href="#formations" class="link-underline">Conduite accompagnée</a></li>
+          <li><a href="#formations" class="link-underline">Stage code intensif</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> 12 Rue de Strasbourg, 44000 Nantes</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> 02 40 65 78 12</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 6l-10 7L2 6"/><path d="M2 6h20v12H2z"/></svg> contact@autoecole-excellence.fr</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 Auto-École Excellence — Nantes. Tous droits réservés.
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== BARRE D'APPEL FLOTTANTE (MOBILE) ===================== -->
+<div class="mobile-call-bar">
+  <a href="tel:+33240657812">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    Appeler maintenant — 02 40 65 78 12
+  </a>
+</div>
+
+<script>
+  // Accordéon FAQ
+  document.querySelectorAll('.faq-item').forEach(function (item) {
+    var question = item.querySelector('.faq-question');
+    question.addEventListener('click', function () {
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(function (open) { open.classList.remove('open'); });
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // Formulaire de contact : à brancher sur un vrai backend (Formspree, EmailJS, etc.)
+  // avant mise en production. Ici, confirmation visuelle simple pour la démo.
+  document.getElementById('contactForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('formSuccess').classList.add('show');
+    this.reset();
+  });
+
+  // Apparition progressive au scroll, avec effet cascade par groupe de frères/sœurs.
+  // Une fois l'animation d'entrée terminée, on retire les classes reveal/is-visible :
+  // sinon leur "transform: translateY(0)" fige la carte et bloque les effets de survol
+  // (translateY au hover) qui ont la même priorité CSS mais sont définis plus haut dans la feuille de style.
+  function clearRevealAfterTransition(el) {
+    el.addEventListener('transitionend', function handler(e) {
+      if (e.propertyName === 'transform') {
+        el.classList.remove('reveal', 'is-visible');
+        el.style.transitionDelay = '';
+        el.removeEventListener('transitionend', handler);
+      }
+    });
+  }
+
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var revealEls = document.querySelectorAll('.reveal');
+  if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+    revealEls.forEach(function (el) { el.classList.remove('reveal', 'is-visible'); });
+  } else {
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          clearRevealAfterTransition(entry.target);
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(function (el) {
+      var siblings = Array.prototype.filter.call(el.parentElement.children, function (c) { return c.classList.contains('reveal'); });
+      var index = siblings.indexOf(el);
+      el.style.transitionDelay = Math.min(index, 4) * 70 + 'ms';
+      revealObserver.observe(el);
+    });
+  }
+
+  // Compteur animé sur les statistiques du hero (92%, 15j)
+  document.querySelectorAll('[data-count]').forEach(function (el) {
+    var target = parseInt(el.getAttribute('data-count'), 10);
+    var suffix = el.getAttribute('data-suffix') || '';
+    if (prefersReducedMotion) {
+      el.textContent = target + suffix;
+      return;
+    }
+    var start = null;
+    var duration = 1200;
+    function step(timestamp) {
+      if (!start) start = timestamp;
+      var progress = Math.min((timestamp - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(eased * target) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  });
+</script>
+
+</body>
+</html>
